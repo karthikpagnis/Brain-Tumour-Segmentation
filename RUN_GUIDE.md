@@ -156,7 +156,11 @@ downloaded = 0
 failed = 0
 
 for file_path, url in files_to_download.items():
-    os.makedirs(os.path.dirname(file_path), exist_ok=True)
+    # Create directory if file is in a subdirectory
+    dir_name = os.path.dirname(file_path)
+    if dir_name:
+        os.makedirs(dir_name, exist_ok=True)
+    
     result = subprocess.run(['wget', '-q', url, '-O', file_path], capture_output=True)
 
     if result.returncode == 0:
