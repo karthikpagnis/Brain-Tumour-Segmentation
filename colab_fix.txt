@@ -1,0 +1,12 @@
+ISSUE: scripts/download_data.py file not found during git clone in Colab
+
+ROOT CAUSE: 
+- Git clone may not complete properly in Colab's network environment
+- OR directory context is lost between cells
+- OR file permissions issue
+
+SOLUTION:
+1. Add explicit file existence verification
+2. Add retry logic for git clone
+3. Use absolute paths consistently
+4. Add detailed error messages
