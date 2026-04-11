@@ -185,11 +185,14 @@ print("="*60)
 print("CELL 4: Install Dependencies")
 print("="*60)
 
-print("\nInstalling PyTorch...")
-!pip install -q torch==2.2.0 torchvision==0.17.0
+print("\nInstalling PyTorch 2.4+ (NumPy 2.0 compatible)...")
+!pip install -q --upgrade torch torchvision
 
-print("Installing NumPy and scientific libraries...")
-!pip install -q 'numpy>=1.26.0' scipy pandas scikit-learn
+print("Installing NumPy 2.0+...")
+!pip install -q 'numpy>=2.0.0'
+
+print("Installing ML libraries...")
+!pip install -q scipy pandas scikit-learn
 
 print("Installing visualization and data libraries...")
 !pip install -q matplotlib pillow nibabel
@@ -276,6 +279,7 @@ else:
 
 ```python
 import os
+import sys
 
 print("="*60)
 print("CELL 7: START TRAINING")
@@ -285,6 +289,11 @@ print(f"\nWorking directory: {os.getcwd()}")
 print(f"Dataset exists: {os.path.exists('data/BraTS_MOCK')}")
 print(f"Config exists: {os.path.exists('config.py')}")
 print(f"Training script exists: {os.path.exists('training/train.py')}")
+
+# Fix Python path for imports
+current_dir = os.getcwd()
+if current_dir not in sys.path:
+    sys.path.insert(0, current_dir)
 
 print("\nEstimated time: 1-2 hours for 30 epochs on T4 GPU")
 print("="*60)
