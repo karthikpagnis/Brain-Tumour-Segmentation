@@ -46,7 +46,8 @@ os.chdir('Brain-Tumour-Segmentation')
 !pip install -q -r requirements.txt
 
 # Now scripts/download_data.py should exist
-!python scripts/download_data.py --create_mock --num_cases 20 --output_dir data/BraTS_MOCK
+# Important: Use --data_dir (NOT --output_dir)
+!python scripts/download_data.py --create_mock --num_cases 20 --data_dir data/BraTS_MOCK
 ```
 
 ### CELL 4: Configure & Train

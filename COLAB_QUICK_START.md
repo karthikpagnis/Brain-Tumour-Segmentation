@@ -31,7 +31,7 @@ os.chdir('/content/drive/MyDrive')
 !pip install -q torch nibabel numpy scipy pandas scikit-learn matplotlib pillow fastapi uvicorn tensorboard
 
 # Create mock data
-!python scripts/download_data.py --create_mock --num_cases 20 --output_dir data/BraTS_MOCK
+!python scripts/download_data.py --create_mock --num_cases 20 --data_dir data/BraTS_MOCK
 
 # Configure for Colab
 with open('config.py', 'r') as f:
