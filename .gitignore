@@ -1,0 +1,101 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Jupyter Notebook & Lab
+.ipynb_checkpoints
+*.ipynb
+
+# IPython
+profile_default/
+ipython_config.py
+
+# pyenv
+.python-version
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+*.code-workspace
+
+# Project-specific
+data/raw/*
+data/processed/*
+checkpoints/*
+outputs/*
+logs/*
+*.nii.gz
+*.nii
+*.dcm
+
+# Large files
+*.zip
+*.tar.gz
+*.tar
+
+# Research & Analysis
+notebooks/.ipynb_checkpoints
+experiments/results/*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Git LFS
+.gitattributes
+
+# Node modules (for UI)
+ui/node_modules/
+ui/dist/
+ui/build/
+
+# PyCharm
+.idea/
+
+# pytest
+.pytest_cache/
+.coverage
+htmlcov/
+
+# TensorBoard
+runs/
