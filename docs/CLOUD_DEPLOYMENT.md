@@ -32,6 +32,7 @@ aws ec2 run-instances \
 ```
 
 **Instance Types:**
+
 - `g4dn.2xlarge`: 1× NVIDIA T4 GPU, 8 CPU, 32 GB RAM (~$1.21/hr)
 - `g4dn.12xlarge`: 4× NVIDIA T4 GPU (~$4.03/hr)
 - `p3.2xlarge`: 1× NVIDIA V100 GPU (~$3.06/hr)
@@ -310,7 +311,7 @@ EOF
 ### Step 2: Production Docker Compose
 
 ```yaml
-version: '3.8'
+version: "3.8"
 
 services:
   api:
@@ -401,23 +402,23 @@ spec:
         app: brain-tumor-api
     spec:
       containers:
-      - name: api
-        image: gcr.io/your-project/brain-tumor-seg:latest
-        ports:
-        - containerPort: 8000
-        resources:
-          requests:
-            nvidia.com/gpu: 1
-            memory: "16Gi"
-          limits:
-            nvidia.com/gpu: 1
-            memory: "16Gi"
-        livenessProbe:
-          httpGet:
-            path: /api/health
-            port: 8000
-          initialDelaySeconds: 30
-          periodSeconds: 10
+        - name: api
+          image: gcr.io/your-project/brain-tumor-seg:latest
+          ports:
+            - containerPort: 8000
+          resources:
+            requests:
+              nvidia.com/gpu: 1
+              memory: "16Gi"
+            limits:
+              nvidia.com/gpu: 1
+              memory: "16Gi"
+          livenessProbe:
+            httpGet:
+              path: /api/health
+              port: 8000
+            initialDelaySeconds: 30
+            periodSeconds: 10
 
 ---
 apiVersion: v1
@@ -428,9 +429,9 @@ spec:
   selector:
     app: brain-tumor-api
   ports:
-  - protocol: TCP
-    port: 80
-    targetPort: 8000
+    - protocol: TCP
+      port: 80
+      targetPort: 8000
   type: LoadBalancer
 ```
 
@@ -472,9 +473,9 @@ global:
   scrape_interval: 15s
 
 scrape_configs:
-  - job_name: 'brain-tumor-api'
+  - job_name: "brain-tumor-api"
     static_configs:
-      - targets: ['localhost:8000']
+      - targets: ["localhost:8000"]
 ```
 
 ```bash
@@ -522,12 +523,12 @@ aws autoscaling put-scheduled-action \
 
 ## Estimated Costs (Monthly)
 
-| Platform | Configuration | Cost/Month |
-|----------|---|---|
-| **AWS** | 1× g4dn.2xlarge (predict) | $293 |
-| **AWS** | 1× g4dn.2xlarge (24/7 training) | $880 |
-| **GCP** | 1× n1-standard-8 + T4 GPU | $275 |
-| **Azure** | 1× NC6s v3 (Standard_NC6s_v3) | $260 |
+| Platform  | Configuration                   | Cost/Month |
+| --------- | ------------------------------- | ---------- |
+| **AWS**   | 1× g4dn.2xlarge (predict)       | $293       |
+| **AWS**   | 1× g4dn.2xlarge (24/7 training) | $880       |
+| **GCP**   | 1× n1-standard-8 + T4 GPU       | $275       |
+| **Azure** | 1× NC6s v3 (Standard_NC6s_v3)   | $260       |
 
 ---
 
@@ -554,4 +555,3 @@ aws autoscaling put-scheduled-action \
 2. ✅ Deploy to cloud
 3. → **Add Advanced Features**
 4. → **Publish Results**
-

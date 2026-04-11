@@ -1,11 +1,11 @@
 """
 Google Colab Training Script - Copy this into Colab Notebook cells
 
-Each code block is a separate Colab cell. Just copy-paste and run!
+Each code block is a separate Colab cell. Copy and paste each one.
 """
 
 # ============================================================================
-# CELL 1: Check GPU & Mount Drive
+# CELL 1: Check GPU and Mount Drive
 # ============================================================================
 print("STEP 1: Checking GPU...")
 import torch
@@ -18,15 +18,15 @@ if torch.cuda.is_available():
 print("\nMounting Google Drive...")
 from google.colab import drive
 drive.mount('/content/drive', force_remount=True)
-print("✓ Drive mounted!")
+print("Drive mounted")
 
 # ============================================================================
-# CELL 2: Clone Repository & Install
+# CELL 2: Setup Working Directory
 # ============================================================================
 import os
 import subprocess
 
-print("STEP 2: Setting up repository...\n")
+print("STEP 2: Setting up repository...")
 
 # Create working directory
 os.makedirs('/content/drive/MyDrive/brain-tumor-workspace', exist_ok=True)
@@ -36,29 +36,29 @@ os.chdir('/content/drive/MyDrive/brain-tumor-workspace')
 if not os.path.exists('Brain-Tumour-Segmentation'):
     print("Cloning repository...")
     !git clone https://github.com/YOUR_USERNAME/Brain-Tumour-Segmentation.git
-    print("✓ Repository cloned!")
+    print("Repository cloned")
 else:
-    print("✓ Repository already cloned")
+    print("Repository already exists")
 
 # Navigate to project
 os.chdir('Brain-Tumour-Segmentation')
-print(f"Working directory: {os.getcwd()}\n")
+print(f"Working directory: {os.getcwd()}")
 
-# Install dependencies (suppress output with -q)
+# Install dependencies (suppress output)
 print("Installing dependencies (this may take 2-3 minutes)...")
 !pip install -q torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
 !pip install -q nibabel numpy scipy pandas scikit-learn matplotlib pillow
 !pip install -q fastapi uvicorn pytest tensorboard
 
-print("✓ Dependencies installed!")
+print("Dependencies installed")
 
 # ============================================================================
-# CELL 3: Create Mock Dataset (for quick testing)
+# CELL 3: Create Mock Dataset
 # ============================================================================
 print("STEP 3: Creating mock BraTS dataset...")
 !python scripts/download_data.py --create_mock --num_cases 20 --output_dir data/BraTS_MOCK
 
-print("\n✓ Mock dataset created with 20 cases (~500MB)")
+print("\nMock dataset created with 20 cases (approximately 500MB)")
 print("Dataset location: data/BraTS_MOCK/")
 
 # Verify dataset
@@ -66,12 +66,12 @@ import os
 dataset_path = 'data/BraTS_MOCK/BraTS2021_Training'
 if os.path.exists(dataset_path):
     num_cases = len(os.listdir(dataset_path))
-    print(f"✓ Verified: {num_cases} training cases found")
+    print(f"Verified: {num_cases} training cases found")
 
 # ============================================================================
 # CELL 4: Configure for Colab Hardware
 # ============================================================================
-print("STEP 4: Optimizing config for Colab...\n")
+print("STEP 4: Optimizing config for Colab...")
 
 # Read current config
 with open('config.py', 'r') as f:
@@ -89,13 +89,13 @@ replacements = {
 for old, new in replacements.items():
     if old in config_content:
         config_content = config_content.replace(old, new)
-        print(f"✓ Changed: {old} → {new}")
+        print(f"Changed: {old} to {new}")
 
 # Write updated config
 with open('config.py', 'w') as f:
     f.write(config_content)
 
-print("\n✓ Config optimized for Colab free tier GPU")
+print("\nConfig optimized for Colab free tier GPU")
 print("  - Batch size: 8 (memory efficient)")
 print("  - Epochs: 30 (quick training)")
 print("  - Workers: 2 (stable on Colab)")
@@ -103,10 +103,10 @@ print("  - Workers: 2 (stable on Colab)")
 # ============================================================================
 # CELL 5: Start Training
 # ============================================================================
-print("STEP 5: Starting training...\n")
+print("STEP 5: Starting training...")
 print("=" * 60)
 print("Training Progress")
-print("=" * 60 + "\n")
+print("=" * 60)
 
 # Run training
 import subprocess
@@ -121,14 +121,14 @@ result = subprocess.run([
 ], text=True)
 
 if result.returncode == 0:
-    print("\n✓ Training completed successfully!")
+    print("\nTraining completed successfully")
 else:
-    print("\n✗ Training ended. Check error messages above.")
+    print("\nTraining ended. Check error messages above.")
 
 # ============================================================================
 # CELL 6: View Training Progress (TensorBoard)
 # ============================================================================
-print("STEP 6: Viewing training progress with TensorBoard...\n")
+print("STEP 6: Viewing training progress with TensorBoard...")
 
 # Load TensorBoard extension
 %load_ext tensorboard
@@ -136,13 +136,13 @@ print("STEP 6: Viewing training progress with TensorBoard...\n")
 # Launch TensorBoard
 %tensorboard --logdir outputs/logs/tensorboard
 
-print("TensorBoard should appear above!")
+print("TensorBoard should appear above")
 print("Showing: Loss curves, Validation metrics, Training progress")
 
 # ============================================================================
 # CELL 7: Wait for Training & Save Checkpoints
 # ============================================================================
-print("STEP 7: Saving results to Google Drive...\n")
+print("STEP 7: Saving results to Google Drive...")
 
 import shutil
 import os
@@ -153,14 +153,14 @@ while not os.path.exists('checkpoints/colab_v1_best.pth'):
     print("Waiting for training to finish...")
     time.sleep(30)
 
-print("✓ Training finished!")
+print("Training finished!")
 
 # Save best model to Drive
 source_model = 'checkpoints/colab_v1_best.pth'
 dest_model = '/content/drive/MyDrive/brain-tumor-workspace/colab_v1_best.pth'
 
 shutil.copy(source_model, dest_model)
-print(f"✓ Model saved to Drive: {dest_model}")
+print(f"Model saved to Drive: {dest_model}")
 
 # Save training summary
 source_summary = 'outputs/colab_v1_summary.json'
@@ -168,15 +168,15 @@ dest_summary = '/content/drive/MyDrive/brain-tumor-workspace/colab_v1_summary.js
 
 if os.path.exists(source_summary):
     shutil.copy(source_summary, dest_summary)
-    print(f"✓ Summary saved to Drive: {dest_summary}")
+    print(f"Summary saved to Drive: {dest_summary}")
 
-print("\nFiles saved successfully!")
-print("You can now download them from Google Drive!")
+print("\nFiles saved successfully")
+print("You can now download them from Google Drive")
 
 # ============================================================================
 # CELL 8: Load & Evaluate Model
 # ============================================================================
-print("STEP 8: Loading and evaluating model...\n")
+print("STEP 8: Loading and evaluating model...")
 
 import torch
 from models.unet_attention import AttentionUNet3D
@@ -190,7 +190,7 @@ checkpoint = torch.load('checkpoints/colab_v1_best.pth')
 model.load_state_dict(checkpoint['model_state_dict'])
 model.eval()
 
-print("✓ Model loaded!")
+print("Model loaded")
 
 # Test inference
 print("\nTesting inference...")
@@ -201,7 +201,7 @@ with torch.no_grad():
 
 print(f"Input shape:  {dummy_input.shape}")
 print(f"Output shape: {output.shape}")
-print("✓ Inference test passed!")
+print("Inference test passed")
 
 # Print model info
 num_params = sum(p.numel() for p in model.parameters())
@@ -211,7 +211,7 @@ print(f"GPU Memory Used: {torch.cuda.memory_allocated() / 1e9:.2f} GB")
 # ============================================================================
 # CELL 9: Download Results
 # ============================================================================
-print("STEP 9: Download results to local machine...\n")
+print("STEP 9: Download results to local machine...")
 
 from google.colab import files
 import os
@@ -227,14 +227,14 @@ for file in download_files:
     if os.path.exists(file):
         print(f"Downloading {file}...")
         files.download(file)
-        print(f"✓ Downloaded!")
+        print("Downloaded!")
 
 print("\nAll files downloaded! Check your Downloads folder.")
 
 # ============================================================================
 # CELL 10: View Results Summary
 # ============================================================================
-print("STEP 10: Viewing results summary...\n")
+print("STEP 10: Viewing results summary...")
 
 import json
 
@@ -242,7 +242,7 @@ if os.path.exists('outputs/colab_v1_summary.json'):
     with open('outputs/colab_v1_summary.json', 'r') as f:
         summary = json.load(f)
 
-    print("✓ TRAINING RESULTS")
+    print("TRAINING RESULTS")
     print("=" * 60)
     print(f"Epochs Trained:     {summary.get('epoch', 'N/A')}")
     print(f"Final Train Loss:   {summary.get('train_loss', [-1])[-1]:.4f}")
@@ -254,7 +254,7 @@ if os.path.exists('outputs/colab_v1_summary.json'):
 else:
     print("Summary not found. Training may still be in progress.")
 
-print("\n✅ YOU'RE DONE!")
+print("\nYOU ARE DONE")
 print("\nNext steps:")
 print("1. Download model from Google Drive or Downloads folder")
 print("2. Use FastAPI to deploy: python -m uvicorn api.main:app")

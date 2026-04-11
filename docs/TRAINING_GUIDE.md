@@ -163,18 +163,19 @@ tensorboard --logdir outputs/logs/tensorboard
 
 ### Expected Timeline
 
-| Phase | Duration | Events |
-|-------|----------|--------|
-| **Initialization** | 5 min | Load data, create model |
-| **Epoch 1-10** | ~20 min | Rapid improvement, find good LR |
-| **Epoch 11-50** | ~1 hour | Steady learning, validation tests |
-| **Epoch 51-80** | ~1 hour | Fine-tuning, convergence |
-| **Epoch 81-100** | ~30 min | Plateau, early stopping likely |
-| **Total** | ~4-5 hours | (On GPU) |
+| Phase              | Duration   | Events                            |
+| ------------------ | ---------- | --------------------------------- |
+| **Initialization** | 5 min      | Load data, create model           |
+| **Epoch 1-10**     | ~20 min    | Rapid improvement, find good LR   |
+| **Epoch 11-50**    | ~1 hour    | Steady learning, validation tests |
+| **Epoch 51-80**    | ~1 hour    | Fine-tuning, convergence          |
+| **Epoch 81-100**   | ~30 min    | Plateau, early stopping likely    |
+| **Total**          | ~4-5 hours | (On GPU)                          |
 
 ### What You'll See
 
 **Console Output:**
+
 ```
 Epoch 1/100 Batch 10/23 Loss: 0.6234
 Epoch 1/100 Batch 20/23 Loss: 0.4123
@@ -188,6 +189,7 @@ Epoch 1 Summary:
 ```
 
 **Log Files Created:**
+
 ```
 outputs/
 ├── training.log           # Full training history
@@ -196,6 +198,7 @@ outputs/
 ```
 
 **Model Checkpoints:**
+
 ```
 checkpoints/
 ├── attention_unet_v1_best.pth     # Best model (validation Dice)
@@ -210,16 +213,17 @@ checkpoints/
 ### Validation Metrics
 
 After training, you'll have:
+
 ```json
 {
-  "epoch": 95,
-  "dice_class_0": 0.98,  // Background
-  "dice_class_1": 0.81,  // Necrotic Core
-  "dice_class_2": 0.89,  // Edema
-  "dice_class_3": 0.86,  // Enhancing Tumor
-  "dice_mean": 0.85,
-  "iou_mean": 0.77,
-  "f1_mean": 0.84
+	"epoch": 95,
+	"dice_class_0": 0.98, // Background
+	"dice_class_1": 0.81, // Necrotic Core
+	"dice_class_2": 0.89, // Edema
+	"dice_class_3": 0.86, // Enhancing Tumor
+	"dice_mean": 0.85,
+	"iou_mean": 0.77,
+	"f1_mean": 0.84
 }
 ```
 
@@ -315,13 +319,13 @@ print(f"Improvement:        +3.1%")
 
 ### Common Issues
 
-| Error | Solution |
-|-------|----------|
-| `CUDA out of memory` | Reduce BATCH_SIZE in config.py |
+| Error                        | Solution                                         |
+| ---------------------------- | ------------------------------------------------ |
+| `CUDA out of memory`         | Reduce BATCH_SIZE in config.py                   |
 | `FileNotFoundError: dataset` | Run `python scripts/download_data.py --validate` |
-| `Model not converging` | Try different LEARNING_RATE (try 1e-4 or 5e-4) |
-| `NaN loss` | Check data normalization, try gradient clipping |
-| `Slow training` | Check GPU utilization: `nvidia-smi` |
+| `Model not converging`       | Try different LEARNING_RATE (try 1e-4 or 5e-4)   |
+| `NaN loss`                   | Check data normalization, try gradient clipping  |
+| `Slow training`              | Check GPU utilization: `nvidia-smi`              |
 
 ### Debug Mode
 
@@ -395,15 +399,18 @@ tar -czf training_results_$(date +%Y%m%d).tar.gz \
 ## Expected Results After Full Training
 
 ✅ **Dice Similarity Coefficient**
+
 - Necrotic Core: 0.81 ± 0.03
 - Edema: 0.89 ± 0.02
 - Enhancing Tumor: 0.86 ± 0.03
 - **Mean: 0.87 ± 0.03**
 
 ✅ **Intersection over Union**
+
 - **Mean: 0.79 ± 0.03**
 
 ✅ **F1-Score**
+
 - **Mean: 0.86 ± 0.02**
 
 ---
@@ -414,4 +421,3 @@ tar -czf training_results_$(date +%Y%m%d).tar.gz \
 2. → **Deploy to Production** (see CLOUD_DEPLOYMENT.md)
 3. → **Add Extra Features** (uncertainty, post-processing)
 4. → **Publish Results** (paper, arXiv, conference)
-

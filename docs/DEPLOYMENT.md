@@ -22,11 +22,13 @@ cd ui && npm install && npm start
 ```
 
 ### API Access
+
 - Swagger UI: http://localhost:8000/docs
 - Health Check: http://localhost:8000/api/health
 - Model Info: http://localhost:8000/api/model-info
 
 ### Web UI
+
 - Open: http://localhost:3000
 - Upload MRI scan
 - View segmentation results
@@ -47,6 +49,7 @@ docker-compose up --build
 ```
 
 Services:
+
 - API: http://localhost:8000
 - Web UI: http://localhost:3000
 - Database: PostgreSQL (localhost:5432)
@@ -66,6 +69,7 @@ MODEL_PATH=checkpoints/attention_unet_v1_best.pth
 ### Scaling
 
 **Option 1: Gunicorn + Uvicorn**
+
 ```bash
 gunicorn api.main:app \
   --workers 4 \
@@ -74,11 +78,13 @@ gunicorn api.main:app \
 ```
 
 **Option 2: Docker Scaling**
+
 ```bash
 docker-compose up -d --scale api=3
 ```
 
 **Option 3: Kubernetes**
+
 - Create deployment.yaml
 - Define resource requests/limits
 - Use horizontal pod autoscaling
@@ -139,13 +145,13 @@ tensorboard --logdir=outputs/logs/tensorboard
 
 ## Troubleshooting
 
-| Issue | Solution |
-|-------|----------|
-| GPU out of memory | Reduce batch size in config.py |
-| Slow inference | Use smaller patch size or GPU with more memory |
-| API won't start | Check if port 8000 is free |
-| UI can't connect | Verify CORS settings in config.py |
-| Model not found | Download BraTS dataset or create mock data |
+| Issue             | Solution                                       |
+| ----------------- | ---------------------------------------------- |
+| GPU out of memory | Reduce batch size in config.py                 |
+| Slow inference    | Use smaller patch size or GPU with more memory |
+| API won't start   | Check if port 8000 is free                     |
+| UI can't connect  | Verify CORS settings in config.py              |
+| Model not found   | Download BraTS dataset or create mock data     |
 
 ## Security
 

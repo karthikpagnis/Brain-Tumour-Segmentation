@@ -1,20 +1,20 @@
-# Google Colab Quick Start 🚀
+# Google Colab Quick Start
 
-**No GPU? No problem! Train in Google Colab for FREE**
+Train your neural network model on free GPU without local hardware.
 
 ---
 
 ## Quick Setup (5 minutes)
 
-### 1️⃣ Open Google Colab
+### 1. Open Google Colab
 ```
 https://colab.research.google.com/
 ```
 
-### 2️⃣ Enable GPU
-Menu: **Runtime → Change runtime type → GPU** (T4/P100/V100)
+### 2. Enable GPU
+Menu: Runtime → Change runtime type → GPU (T4/P100/V100)
 
-### 3️⃣ Copy-Paste This (One Cell)
+### 3. Copy-Paste This (One Cell)
 
 ```python
 # Mount Drive
@@ -44,13 +44,14 @@ with open('config.py', 'w') as f:
 # Train!
 !python training/train.py --experiment_name colab_v1 --epochs 30 --batch_size 8 --device cuda
 
-print("✅ Training Complete! Check Google Drive for saved model.")
+print("Training Complete! Check Google Drive for saved model.")
 ```
 
-### 4️⃣ Wait for Training (~1-2 hours for 30 epochs)
+### 4. Wait for Training
+Expected time: 1-2 hours for 30 epochs
 
-### 5️⃣ Download Model
-Your trained model is automatically saved to Google Drive!
+### 5. Download Model
+Your trained model is automatically saved to Google Drive.
 
 ---
 
@@ -58,31 +59,33 @@ Your trained model is automatically saved to Google Drive!
 
 | GPU | Epochs/Hour | Time for 30 Epochs |
 |-----|-------------|----------|
-| **T4** (Free) | 10-15 | 2-3 hours |
-| **P100** | 20-30 | 1-1.5 hours |
-| **V100** | 30-40 | 45-60 min |
-| **A100** (Pro) | 40-60 | 30-45 min |
+| T4 (Free) | 10-15 | 2-3 hours |
+| P100 | 20-30 | 1-1.5 hours |
+| V100 | 30-40 | 45-60 min |
+| A100 (Pro) | 40-60 | 30-45 min |
 
-**Free tier = T4 GPU (perfectly fine for training!)**
+Free tier provides T4 GPU, which is suitable for model training.
 
 ---
 
 ## Full Detailed Guide
 
-📖 See: **`docs/COLAB_SETUP.md`** for step-by-step instructions
+See: docs/COLAB_SETUP.md for complete step-by-step instructions.
 
 ---
 
-## Why Colab?
+## Advantages
 
-✅ **Free GPU** (T4 GPU = $0)  
-✅ **Unlimited storage** (via Google Drive)  
-✅ **No installation needed**  
-✅ **Pre-installed Python & CUDA**  
-✅ **Perfect for students/researchers**  
+- Free GPU access (T4 GPU)
+- Unlimited storage via Google Drive
+- No local installation required
+- Pre-installed Python and CUDA
+- Suitable for research and educational purposes
 
 ---
 
-## Replace `YOUR_USERNAME` with your GitHub username
+## Important
 
-Then just run and wait! Easy. 🎉
+Replace YOUR_USERNAME with your actual GitHub username before running the script.
+
+Then execute and wait for training to complete.

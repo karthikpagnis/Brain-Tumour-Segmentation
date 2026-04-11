@@ -27,12 +27,14 @@ We propose an Attention-Enhanced U-Net for automatic brain tumor segmentation fr
 - **Novelty**: First to apply attention gates to BraTS dataset (cite properly if not)
 
 ### Key Points:
+
 - Brain tumor segmentation is clinically significant
 - Manual segmentation is laborious and subjective
 - Recent deep learning approaches show promise
 - Our attention mechanism improves performance
 
 ### Literature Review:
+
 - U-Net (Ronneberger et al., 2015)
 - Attention U-Net (Oktay et al., 2018)
 - SE-Net (Hu et al., 2017)
@@ -41,14 +43,16 @@ We propose an Attention-Enhanced U-Net for automatic brain tumor segmentation fr
 ## 2. Related Work
 
 ### Semantic Segmentation
-| Method | Year | Approach | Performance |
-|:-------|:----:|----------|:------------|
-| U-Net | 2015 | Encoder-decoder | Baseline |
-| V-Net | 2016 | 3D U-Net | +2% |
-| Attention U-Net | 2018 | + attention gates | +3% |
-| Our method | 2025 | + hybrid attention | +3.6% |
+
+| Method          | Year | Approach           | Performance |
+| :-------------- | :--: | ------------------ | :---------- |
+| U-Net           | 2015 | Encoder-decoder    | Baseline    |
+| V-Net           | 2016 | 3D U-Net           | +2%         |
+| Attention U-Net | 2018 | + attention gates  | +3%         |
+| Our method      | 2025 | + hybrid attention | +3.6%       |
 
 ### Brain Tumor Segmentation
+
 - DeepMedic (3D multi-scale)
 - nnU-Net (automated architecture)
 - ResNet-based approaches
@@ -57,24 +61,28 @@ We propose an Attention-Enhanced U-Net for automatic brain tumor segmentation fr
 ## 3. Methodology
 
 ### 3.1 Dataset
+
 - BraTS 2021: 369 training, 125 validation, 219 test cases
 - Multimodal: T1, T1ce, T2, FLAIR
 - 4-class segmentation: background, necrotic core, edema, enhancing tumor
 
 ### 3.2 Preprocessing
+
 - NIfTI volume loading
 - Z-score normalization: (x - μ) / (σ + ε)
 - Standardization: 155×240×240
 
 ### 3.3 Architecture
-[Include architectural diagram]
 
+[Include architectural diagram]
 ```
+
 Input (4, 155, 240, 240)
-    ↓ Encoder (4 levels)
-    → Bottleneck (256 channels)
-    ↓ Decoder (4 levels + attention)
+↓ Encoder (4 levels)
+→ Bottleneck (256 channels)
+↓ Decoder (4 levels + attention)
 Output (4, 155, 240, 240)
+
 ```
 
 ### 3.4 Loss Function
@@ -233,30 +241,30 @@ from models.unet_attention import AttentionUNet3D
 
 def plot_results_comparison():
     """Create publication-quality comparison figures"""
-    
+
     fig, axes = plt.subplots(2, 2, figsize=(14, 10))
     fig.suptitle('Brain Tumor Segmentation Results', fontsize=16, weight='bold')
-    
+
     # Plot 1: Dice comparison
     models = ['Standard U-Net', 'Attention U-Net']
     dice_scores = [0.840, 0.870]
     colors = ['#3498db', '#e74c3c']
-    
+
     axes[0, 0].bar(models, dice_scores, color=colors, alpha=0.7, edgecolor='black')
     axes[0, 0].set_ylabel('Dice Score', fontsize=12)
     axes[0, 0].set_ylim([0.8, 0.9])
     axes[0, 0].grid(axis='y', alpha=0.3)
     for i, v in enumerate(dice_scores):
         axes[0, 0].text(i, v + 0.005, f'{v:.3f}', ha='center', weight='bold')
-    
+
     # Plot 2: Per-class results
     classes = ['Necrotic Core', 'Edema', 'Enhancing']
     standard = [0.78, 0.88, 0.85]
     attention = [0.81, 0.89, 0.86]
-    
+
     x = np.arange(len(classes))
     width = 0.35
-    
+
     axes[0, 1].bar(x - width/2, standard, width, label='Standard', color='#3498db', alpha=0.7)
     axes[0, 1].bar(x + width/2, attention, width, label='Attention', color='#e74c3c', alpha=0.7)
     axes[0, 1].set_ylabel('Dice Score', fontsize=12)
@@ -264,29 +272,29 @@ def plot_results_comparison():
     axes[0, 1].set_xticklabels(classes, rotation=15, ha='right')
     axes[0, 1].legend()
     axes[0, 1].grid(axis='y', alpha=0.3)
-    
+
     # Plot 3: Learning curves
     epochs = np.arange(1, 101)
     train_loss = 0.5 * np.exp(-epochs / 30) + 0.05
     val_loss = 0.52 * np.exp(-epochs / 25) + 0.08
-    
+
     axes[1, 0].plot(epochs, train_loss, label='Train', linewidth=2, color='#2ecc71')
     axes[1, 0].plot(epochs, val_loss, label='Validation', linewidth=2, color='#e74c3c')
     axes[1, 0].set_xlabel('Epoch', fontsize=12)
     axes[1, 0].set_ylabel('Loss', fontsize=12)
     axes[1, 0].legend()
     axes[1, 0].grid(alpha=0.3)
-    
+
     # Plot 4: Attention gain
     ablations = ['No Attention', 'Channel Attention', 'Spatial Attention', 'Both (Ours)']
     improvements = [0.0, 1.5, 1.2, 3.6]
-    
+
     axes[1, 1].barh(ablations, improvements, color=['gray', '#3498db', '#3498db', '#e74c3c'], alpha=0.7)
     axes[1, 1].set_xlabel('Dice Improvement (%)', fontsize=12)
     axes[1, 1].grid(axis='x', alpha=0.3)
     for i, v in enumerate(improvements):
         axes[1, 1].text(v + 0.1, i, f'+{v:.1f}%', va='center', weight='bold')
-    
+
     plt.tight_layout()
     plt.savefig('paper/figures/results_comparison.pdf', dpi=300, bbox_inches='tight')
     plt.savefig('paper/figures/results_comparison.png', dpi=150, bbox_inches='tight')
@@ -304,21 +312,21 @@ if __name__ == "__main__":
 
 #### Top-Tier Conferences
 
-| Venue | Deadline | Impact | Acceptance |
-|-------|----------|--------|-----------|
-| **MICCAI** | Mar 23 | Very High | ~30% |
-| **CVPR** | Nov 15 | Very High | ~25% |
-| **ICCV** | Mar 15 | Very High | ~25% |
-| **NeurIPS** | May 15 | Very High | ~25% |
+| Venue       | Deadline | Impact    | Acceptance |
+| ----------- | -------- | --------- | ---------- |
+| **MICCAI**  | Mar 23   | Very High | ~30%       |
+| **CVPR**    | Nov 15   | Very High | ~25%       |
+| **ICCV**    | Mar 15   | Very High | ~25%       |
+| **NeurIPS** | May 15   | Very High | ~25%       |
 
 #### Medical Imaging Journals
 
-| Journal | Impact Factor | Timeline |
-|---------|---|---|
-| IEEE TMI | 4.6 | 3-4 months |
-| Medical Image Analysis | 3.5 | 3-4 months |
-| Neuroimage | 5.7 | 2-3 months |
-| JBMR | 3.2 | 3-4 months |
+| Journal                | Impact Factor | Timeline   |
+| ---------------------- | ------------- | ---------- |
+| IEEE TMI               | 4.6           | 3-4 months |
+| Medical Image Analysis | 3.5           | 3-4 months |
+| Neuroimage             | 5.7           | 2-3 months |
+| JBMR                   | 3.2           | 3-4 months |
 
 #### Open Access Preprints
 
@@ -340,6 +348,7 @@ if __name__ == "__main__":
 ### MICCAI Presentation (15 min)
 
 **Outline:**
+
 1. Problem intro (1 min)
 2. Method (4 min)
 3. Results (4 min)
@@ -349,25 +358,30 @@ if __name__ == "__main__":
 **Slides Template:**
 
 Slide 1: Title
+
 - Title, authors, affiliation
 - Keywords
 
 Slide 2: Motivation
+
 - Clinical significance
 - Current challenges
 - Your contribution
 
 Slide 3-4: Method
+
 - Architecture diagram
 - Attention mechanism equation
 - Loss function
 
 Slide 5-6: Results
+
 - Comparison table
 - Per-class results
 - Ablation study
 
 Slide 7: Discussion
+
 - Strengths vs limitations
 - Comparison with SOTA
 - Future work
@@ -412,9 +426,9 @@ git push origin main
 [![DOI](https://zenodo.org/badge/...svg)](https://zenodo.org/...)
 
 # 3. Share on social media
-Twitter: "Excited to share our Brain Tumor Segmentation work on @conf_name! 
-Attention-Enhanced U-Net achieves 0.87 Dice on BraTS. 
-Paper: [link] 
+Twitter: "Excited to share our Brain Tumor Segmentation work on @conf_name!
+Attention-Enhanced U-Net achieves 0.87 Dice on BraTS.
+Paper: [link]
 Code: [GitHub link]
 #MedicalImaging #AI #DeepLearning"
 
@@ -449,13 +463,13 @@ Code: [GitHub link]
 
 ## Estimated Publication Timeline
 
-| Activity | Duration |
-|----------|----------|
-| Writeup | 2-4 weeks |
-| Review internally | 1 week |
-| First submission | 3-5 weeks |
-| Conference review | 2-3 months |
-| Decision received | 3-5 months |
+| Activity                 | Duration        |
+| ------------------------ | --------------- |
+| Writeup                  | 2-4 weeks       |
+| Review internally        | 1 week          |
+| First submission         | 3-5 weeks       |
+| Conference review        | 2-3 months      |
+| Decision received        | 3-5 months      |
 | **Total to publication** | **6-12 months** |
 
 ---
@@ -476,4 +490,3 @@ A: Recommended! Most conferences require code/appendix availability.
 
 **Q: How to handle authorship?**
 A: Clear agreement upfront. Usually ordered by contribution magnitude.
-

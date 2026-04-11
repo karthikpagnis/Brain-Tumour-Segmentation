@@ -6,28 +6,31 @@
 
 Based on research literature and typical BraTS performance:
 
-| Metric | Standard U-Net | Attention U-Net | Improvement |
-|--------|---|---|---|
-| **Dice (Necrotic Core)** | 0.78 | 0.81 | +3.8% |
-| **Dice (Edema)** | 0.88 | 0.91 | +3.4% |
-| **Dice (Enhancing)** | 0.85 | 0.88 | +3.5% |
-| **Dice (Mean)** | 0.84 | 0.87 | +3.6% |
-| **IoU (Mean)** | 0.76 | 0.79 | +3.9% |
-| **F1-Score (Mean)** | 0.83 | 0.86 | +3.6% |
+| Metric                   | Standard U-Net | Attention U-Net | Improvement |
+| ------------------------ | -------------- | --------------- | ----------- |
+| **Dice (Necrotic Core)** | 0.78           | 0.81            | +3.8%       |
+| **Dice (Edema)**         | 0.88           | 0.91            | +3.4%       |
+| **Dice (Enhancing)**     | 0.85           | 0.88            | +3.5%       |
+| **Dice (Mean)**          | 0.84           | 0.87            | +3.6%       |
+| **IoU (Mean)**           | 0.76           | 0.79            | +3.9%       |
+| **F1-Score (Mean)**      | 0.83           | 0.86            | +3.6%       |
 
 ### Per-Class Breakdown
 
 **Necrotic Core (Class 1):**
+
 - Challenge: Smallest class, high class imbalance
 - Attention benefit: +4-5% improvement
 - Nature: Dense necrotic tissue
 
 **Peritumoral Edema (Class 2):**
+
 - Challenge: Diffuse, ill-defined boundaries
 - Attention benefit: +3-4% improvement
 - Moderate class size
 
 **Enhancing Tumor (Class 3):**
+
 - Challenge: Most variable intensity
 - Attention benefit: +3-4% improvement
 - Good contrast with surrounding tissue
@@ -35,6 +38,7 @@ Based on research literature and typical BraTS performance:
 ### Training Dynamics
 
 **Loss Curves (Typical):**
+
 ```
 Epoch 1:   Train Loss: 0.45, Val Loss: 0.42
 Epoch 10:  Train Loss: 0.18, Val Loss: 0.16
@@ -43,17 +47,19 @@ Epoch 100: Train Loss: 0.06, Val Loss: 0.09
 ```
 
 **Convergence:**
+
 - Fast initial improvement (Epochs 1-20)
 - Steady improvement (Epochs 20-50)
 - Plateau stage (Epochs 50+)
 - Best performance: ~Epoch 80-95
 
 **Learning Curve:**
+
 ```
 Validation Dice
      1.0 │
      0.9 │     ╔═══════════════╗
-     0.8 │ ╔═══╬═════════════╗ ║  
+     0.8 │ ╔═══╬═════════════╗ ║
      0.7 │ ║   ║             ║ ║  Standard U-Net
      0.6 │ ║   ║             ║ ║
         └─╫───╫─────────────╫─╫──
@@ -109,23 +115,23 @@ Spatial + Intensity     | 0.87  | Low      | Good ✓
 
 ### Training
 
-| Metric | Value |
-|--------|-------|
-| GPU Memory | 12-16 GB |
-| Batch Size | 16 |
-| Epochs | 100 |
-| Time/Epoch | 10-15 min |
-| Total Time | 16-25 hours |
+| Metric          | Value                   |
+| --------------- | ----------------------- |
+| GPU Memory      | 12-16 GB                |
+| Batch Size      | 16                      |
+| Epochs          | 100                     |
+| Time/Epoch      | 10-15 min               |
+| Total Time      | 16-25 hours             |
 | Recommended GPU | NVIDIA A100 or RTX 4090 |
 
 ### Inference
 
-| Metric | Value |
-|--------|-------|
-| GPU Memory | 4.5 GB |
-| Time/Volume | 2-5 seconds |
-| Throughput | 12-30 volumes/min |
-| CPU Only | ~30-60 seconds |
+| Metric      | Value             |
+| ----------- | ----------------- |
+| GPU Memory  | 4.5 GB            |
+| Time/Volume | 2-5 seconds       |
+| Throughput  | 12-30 volumes/min |
+| CPU Only    | ~30-60 seconds    |
 
 ## Comparison with State-of-the-Art
 
@@ -139,6 +145,7 @@ Spatial + Intensity     | 0.87  | Low      | Good ✓
 | - | Standard U-Net | 0.84 | 0.76 |
 
 **Analysis:**
+
 - Within 1-3% of state-of-the-art
 - Simpler than top methods (no extreme augmentation, no ensemble)
 - Interpretable through attention maps
@@ -165,6 +172,7 @@ Spatial + Intensity     | 0.87  | Low      | Good ✓
 ### Interobserver Variability
 
 Typical radiologist agreement (ground truth):
+
 - Dice: 0.88-0.92
 - Model performance: 0.87
 
@@ -173,6 +181,7 @@ Typical radiologist agreement (ground truth):
 ### Clinical Metrics
 
 Beyond segmentation accuracy:
+
 - **Tumor volume estimation**: ±8% error
 - **Progression detection**: 94% sensitivity
 - **Radiation planning**: Suitable for clinical use
