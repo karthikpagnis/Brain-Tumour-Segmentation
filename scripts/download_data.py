@@ -216,9 +216,11 @@ Examples:
 
     parser.add_argument(
         "--data_dir",
+        "--output_dir",
+        dest="data_dir",
         type=str,
         default="data/BraTS",
-        help="Dataset directory (default: data/BraTS)",
+        help="Dataset/output directory (default: data/BraTS)",
     )
 
     parser.add_argument(
