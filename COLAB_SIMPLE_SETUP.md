@@ -45,6 +45,9 @@ os.chdir('Brain-Tumour-Segmentation')
 ```python
 !pip install -q -r requirements.txt
 
+# If requirements.txt fails, use this instead:
+# !pip install -q torch torchvision pytorch-lightning numpy scipy pandas scikit-learn nibabel matplotlib pillow tensorboard fastapi uvicorn pydantic jupyter ipython
+
 # Now scripts/download_data.py should exist
 # Important: Use --data_dir (NOT --output_dir)
 !python scripts/download_data.py --create_mock --num_cases 20 --data_dir data/BraTS_MOCK
