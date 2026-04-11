@@ -2,6 +2,8 @@
 
 Complete working setup that avoids all pip dependency issues.
 
+**Updated for NumPy compatibility:** Uses NumPy 1.26+ with flexible versioning instead of strict pinning.
+
 ---
 
 ## Step 1: Open Google Colab
@@ -108,8 +110,11 @@ print(f"train.py exists: {os.path.exists('training/train.py')}")
 # Install PyTorch (Colab compatible)
 !pip install -q torch==2.2.0 torchvision==0.17.0
 
-# Install ML libraries
-!pip install -q numpy scipy pandas scikit-learn matplotlib pillow
+# Install NumPy with compatible version (avoids conflicts)
+!pip install -q 'numpy>=1.26.0'
+
+# Install ML libraries (flexible versioning)
+!pip install -q scipy pandas scikit-learn matplotlib pillow
 
 # Install training tools
 !pip install -q pytorch-lightning tensorboard tqdm
@@ -117,7 +122,8 @@ print(f"train.py exists: {os.path.exists('training/train.py')}")
 # Install other utilities
 !pip install -q nibabel jupyter ipython
 
-print("All packages installed successfully")
+print("All packages installed successfully!")
+print(f"NumPy version: {__import__('numpy').__version__}")
 ```
 
 ---
@@ -215,15 +221,15 @@ print("All files saved to Google Drive!")
 
 ## Summary
 
-| Step | Description | Time |
-|------|-------------|------|
-| 1-2 | Setup and create directories | 1 min |
-| 3 | Download files | 2 min |
-| 4 | Install packages | 3-5 min |
-| 5 | Create dataset | 2 min |
-| 6 | Configure | 30 sec |
-| 7 | Train model | 1-2 hours |
-| 8 | Save results | 1 min |
+| Step | Description                  | Time      |
+| ---- | ---------------------------- | --------- |
+| 1-2  | Setup and create directories | 1 min     |
+| 3    | Download files               | 2 min     |
+| 4    | Install packages             | 3-5 min   |
+| 5    | Create dataset               | 2 min     |
+| 6    | Configure                    | 30 sec    |
+| 7    | Train model                  | 1-2 hours |
+| 8    | Save results                 | 1 min     |
 
 **Total: Approximately 2-3 hours including training**
 
@@ -232,14 +238,17 @@ print("All files saved to Google Drive!")
 ## Troubleshooting
 
 If CELL 5 (dataset creation) fails:
+
 - Make sure YOUR_USERNAME is replaced in CELL 3
 - Verify download_data.py was downloaded: `!ls scripts/`
 
 If CELL 7 (training) fails:
+
 - Check dataset exists: `!ls data/BraTS_MOCK/`
 - Check config.py exists: `!cat config.py | head -20`
 
 If you run out of memory:
+
 - Reduce BATCH_SIZE to 4 in CELL 6
 - Reduce num_cases to 10 in CELL 5
 
