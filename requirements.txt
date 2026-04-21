@@ -9,6 +9,9 @@ scikit-learn>=1.3.0
 matplotlib>=3.8.0
 pillow>=10.0.0
 
+# Data Download
+kagglehub>=0.2.0
+
 # Training & Optimization
 pytorch-lightning>=2.2.0
 tensorboard>=2.15.0
