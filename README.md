@@ -158,6 +158,64 @@ python scripts/download_data.py --year 2021
 
 ---
 
+## 🔄 Converting Separate BraTS Files to Combined Format
+
+BraTS dataset files come as separate modality files. Use this script to combine them into the 4-channel format required by the model:
+
+### Quick Usage
+
+```bash
+# Basic usage - creates BraTS19_014_combined.nii.gz
+python scripts/combine_brats_files.py --input_dir BraTS19_014
+
+# With custom output name
+python scripts/combine_brats_files.py --input_dir BraTS19_014 --output my_mri_scan.nii.gz
+
+# From a nested directory
+python scripts/combine_brats_files.py --input_dir data/BraTS_Training/BraTS19_001
+```
+
+### Supported File Formats
+
+The script automatically detects these naming patterns:
+
+- `patient_t1.nii` / `patient_t1.nii.gz`
+- `patient_t1ce.nii` / `patient_t1ce.nii.gz`
+- `patient_t2.nii` / `patient_t2.nii.gz`
+- `patient_flair.nii` / `patient_flair.nii.gz`
+
+### How It Works
+
+**Input:** 4 separate single-channel files
+
+```
+BraTS19_014/
+├── BraTS19_014_t1.nii        (H, W, D)
+├── BraTS19_014_t1ce.nii      (H, W, D)
+├── BraTS19_014_t2.nii        (H, W, D)
+└── BraTS19_014_flair.nii     (H, W, D)
+```
+
+**Output:** 1 combined 4-channel file
+
+```
+BraTS19_014_combined.nii.gz   (H, W, D, 4)
+```
+
+### Upload to Web App
+
+Once combined, you can upload the `.nii.gz` file to the web interface for segmentation:
+
+```bash
+# Start the web app
+python app.py
+
+# Visit http://localhost:8000
+# Upload the combined file and download predictions
+```
+
+---
+
 ## 🧠 Model Architecture
 
 ### Attention-Enhanced U-Net

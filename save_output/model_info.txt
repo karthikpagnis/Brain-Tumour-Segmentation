@@ -1,0 +1,7 @@
+Model           : Attention U-Net 3D
+Total params    : 22.67 M
+Trainable params: 22.67 M
+Base filters    : 32
+In channels     : 4
+Num classes     : 4
+Multi-GPU       : True

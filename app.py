@@ -226,10 +226,15 @@ def preprocess_volume(volume):
         elif volume.shape[0] == 4:
             print(f"Volume already in channels-first format: {volume.shape}")
         else:
-            raise ValueError(f"Expected 4 channels, got shape {volume.shape}")
+            raise ValueError(f"❌ Expected 4 channels, got shape {volume.shape}. "
+                           f"Please upload a BraTS-format 4-channel NIfTI file "
+                           f"(T1, T1c, T2, FLAIR stacked). "
+                           f"Expected format: (H, W, D, 4) or (4, H, W, D)")
     elif volume.ndim == 3:
-        print(f"Adding channel dimension to 3D volume: {volume.shape}")
-        volume = volume[np.newaxis]  # Add channel dim
+        raise ValueError(f"❌ Expected 4-channel NIfTI volume, got shape {volume.shape}. "
+                       f"Your file has only 1 channel. "
+                       f"Please provide a BraTS-format file with 4 channels: T1, T1c, T2, FLAIR. "
+                       f"Test file: test_mri.nii.gz")
     else:
         raise ValueError(f"Expected 3D or 4D volume, got {volume.ndim}D with shape {volume.shape}")
 
@@ -270,6 +275,16 @@ def predict(volume_np):
 async def root():
     """Serve web interface"""
     return get_html_interface()
+
+@app.get("/plot/training")
+async def get_training_plot():
+    """Serve training plot image"""
+    plot_path = Path("save_output/loss_curve.png")
+    if not plot_path.exists():
+        plot_path = Path("outputs copy/plots/loss_curve.png")
+    if not plot_path.exists():
+        raise HTTPException(status_code=404, detail="Training plot not found")
+    return FileResponse(plot_path, media_type="image/png")
 
 @app.get("/api/health")
 async def health():
@@ -386,7 +401,7 @@ def get_html_interface():
             * { margin: 0; padding: 0; box-sizing: border-box; }
             body {
                 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                background: #f5f5f5;
                 min-height: 100vh;
                 display: flex;
                 align-items: center;
@@ -395,47 +410,76 @@ def get_html_interface():
             }
             .container {
                 background: white;
-                border-radius: 15px;
-                box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-                max-width: 600px;
+                border-radius: 8px;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                max-width: 750px;
                 width: 100%;
                 padding: 40px;
             }
             h1 {
-                color: #333;
-                margin-bottom: 10px;
+                color: #222;
+                margin-bottom: 5px;
                 text-align: center;
                 font-size: 28px;
             }
             .subtitle {
                 text-align: center;
-                color: #666;
+                color: #777;
                 margin-bottom: 30px;
                 font-size: 14px;
             }
+            .model-info {
+                background: #f9f9f9;
+                padding: 15px;
+                border-radius: 6px;
+                margin-bottom: 25px;
+                font-size: 13px;
+                color: #555;
+                border: 1px solid #e0e0e0;
+            }
+            .model-info strong { color: #222; }
+            .training-plot {
+                background: #f9f9f9;
+                padding: 15px;
+                border-radius: 6px;
+                margin-bottom: 25px;
+                text-align: center;
+                border: 1px solid #e0e0e0;
+            }
+            .training-plot img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 6px;
+            }
+            .training-plot-title {
+                font-weight: 600;
+                color: #222;
+                margin-bottom: 10px;
+                font-size: 14px;
+            }
             .upload-area {
-                border: 3px dashed #667eea;
-                border-radius: 10px;
+                border: 2px dashed #ccc;
+                border-radius: 6px;
                 padding: 40px;
                 text-align: center;
                 cursor: pointer;
-                transition: all 0.3s ease;
-                background: #f8f9ff;
+                transition: all 0.2s ease;
+                background: #fafafa;
             }
             .upload-area:hover {
-                border-color: #764ba2;
-                background: #f0f2ff;
+                border-color: #999;
+                background: #f5f5f5;
             }
             .upload-area.dragover {
-                border-color: #764ba2;
-                background: #e8eaff;
+                border-color: #333;
+                background: #f0f0f0;
             }
             .upload-icon {
                 font-size: 48px;
                 margin-bottom: 15px;
             }
             .upload-text {
-                color: #333;
+                color: #222;
                 font-weight: 600;
                 margin-bottom: 5px;
             }
@@ -443,51 +487,58 @@ def get_html_interface():
                 color: #999;
                 font-size: 12px;
             }
+            .file-name {
+                color: #27ae60;
+                font-weight: 600;
+                margin-top: 10px;
+                font-size: 13px;
+            }
             input[type="file"] { display: none; }
             .button {
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                background: #333;
                 color: white;
                 border: none;
                 padding: 12px 30px;
-                border-radius: 8px;
+                border-radius: 6px;
                 font-size: 16px;
                 font-weight: 600;
                 cursor: pointer;
                 margin-top: 20px;
-                transition: all 0.3s ease;
+                transition: all 0.2s ease;
                 width: 100%;
             }
             .button:hover {
-                transform: translateY(-2px);
-                box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+                background: #555;
             }
             .button:disabled {
-                opacity: 0.6;
+                opacity: 0.5;
                 cursor: not-allowed;
             }
             .results {
                 margin-top: 30px;
                 padding: 20px;
-                background: #f0f2ff;
-                border-radius: 10px;
+                background: #f9f9f9;
+                border-radius: 6px;
                 display: none;
+                border: 1px solid #e0e0e0;
             }
             .results.show { display: block; }
             .result-item {
                 background: white;
                 padding: 15px;
-                border-radius: 8px;
+                border-radius: 6px;
                 margin-bottom: 10px;
-                border-left: 4px solid #667eea;
+                border-left: 3px solid #333;
             }
             .result-label {
                 font-weight: 600;
-                color: #333;
+                color: #222;
                 margin-bottom: 5px;
+                font-size: 14px;
             }
             .result-value {
                 color: #666;
-                font-size: 14px;
+                font-size: 13px;
             }
             .download-btn {
                 background: #27ae60;
@@ -495,6 +546,7 @@ def get_html_interface():
                 display: inline-block;
                 text-decoration: none;
                 text-align: center;
+                width: 100%;
             }
             .download-btn:hover {
                 background: #229954;
@@ -505,8 +557,8 @@ def get_html_interface():
                 margin-top: 20px;
             }
             .spinner {
-                border: 4px solid #f3f3f3;
-                border-top: 4px solid #667eea;
+                border: 4px solid #e0e0e0;
+                border-top: 4px solid #333;
                 border-radius: 50%;
                 width: 40px;
                 height: 40px;
@@ -521,22 +573,12 @@ def get_html_interface():
                 background: #fee;
                 color: #c33;
                 padding: 15px;
-                border-radius: 8px;
+                border-radius: 6px;
                 margin-top: 15px;
                 display: none;
-                border-left: 4px solid #c33;
+                border-left: 3px solid #c33;
             }
             .error.show { display: block; }
-            .model-info {
-                background: #e8f4f8;
-                padding: 15px;
-                border-radius: 8px;
-                margin-bottom: 20px;
-                font-size: 13px;
-                color: #333;
-                border-left: 4px solid #3498db;
-            }
-            .model-info strong { color: #2c3e50; }
         </style>
     </head>
     <body>
@@ -551,10 +593,17 @@ def get_html_interface():
                 <strong>Classes:</strong> Necrotic Core, Edema, Enhancing Tumor
             </div>
 
+            <div class="training-plot">
+                <div class="training-plot-title">Training Performance</div>
+                <img src="/plot/training" alt="Training curves" style="max-width: 100%; height: auto;">
+                <p style="font-size: 12px; color: #999; margin-top: 10px;">Loss & Metrics over 30 epochs</p>
+            </div>
+
             <div class="upload-area" id="uploadArea">
                 <div class="upload-icon">📁</div>
                 <div class="upload-text">Drop your MRI file here</div>
                 <div class="upload-hint">or click to browse (.nii, .nii.gz)</div>
+                <div class="file-name" id="uploadedFile" style="display: none;"></div>
                 <input type="file" id="fileInput" accept="*">
             </div>
 
@@ -569,15 +618,24 @@ def get_html_interface():
 
             <div class="results" id="results">
                 <div class="result-item">
-                    <div class="result-label">Prediction Status</div>
-                    <div class="result-value" id="status">✅ Segmentation complete!</div>
+                    <div class="result-label">📤 Uploaded File</div>
+                    <div class="result-value" id="uploadedFileName"></div>
                 </div>
                 <div class="result-item">
-                    <div class="result-label">Output File</div>
-                    <div class="result-value" id="filename"></div>
+                    <div class="result-label">🔍 Tumor Detection</div>
+                    <div class="result-value" id="tumorDetection"></div>
                 </div>
                 <div class="result-item">
-                    <div class="result-label">Classes Detected</div>
+                    <div class="result-label">✅ Prediction Status</div>
+                    <div class="result-value" id="status">Segmentation complete!</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">📊 Output File</div>
+                    <div class="result-value" id="node --version"></div>
+                    <div class="result-value" style="font-size: 12px; color: #999; margin-top: 8px;">📁 Path: <code style="background: #f0f0f0; padding: 2px 4px; border-radius: 3px;">uploads/<span id="filePath"></span></code></div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">🎯 Classes Detected</div>
                     <div class="result-value" id="classes"></div>
                 </div>
                 <button class="button download-btn" id="downloadBtn">⬇️ Download Prediction</button>
@@ -592,18 +650,36 @@ def get_html_interface():
             const error = document.getElementById('error');
             const results = document.getElementById('results');
             const downloadBtn = document.getElementById('downloadBtn');
+            const uploadedFileDiv = document.getElementById('uploadedFile');
+            const uploadedFileNameDiv = document.getElementById('uploadedFileName');
 
             uploadArea.addEventListener('click', () => fileInput.click());
+            
             uploadArea.addEventListener('dragover', (e) => {
                 e.preventDefault();
                 uploadArea.classList.add('dragover');
             });
+            
             uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('dragover'));
+            
             uploadArea.addEventListener('drop', (e) => {
                 e.preventDefault();
                 uploadArea.classList.remove('dragover');
                 fileInput.files = e.dataTransfer.files;
+                showUploadedFileName();
             });
+
+            fileInput.addEventListener('change', showUploadedFileName);
+
+            function showUploadedFileName() {
+                if (fileInput.files.length > 0) {
+                    const fileName = fileInput.files[0].name;
+                    uploadedFileDiv.textContent = '✅ Selected: ' + fileName;
+                    uploadedFileDiv.style.display = 'block';
+                } else {
+                    uploadedFileDiv.style.display = 'none';
+                }
+            }
 
             submitBtn.addEventListener('click', async () => {
                 if (!fileInput.files.length) {
@@ -612,6 +688,7 @@ def get_html_interface():
                 }
 
                 const formData = new FormData();
+                const uploadedFileName = fileInput.files[0].name;
                 formData.append('file', fileInput.files[0]);
 
                 loading.style.display = 'block';
@@ -630,7 +707,29 @@ def get_html_interface():
                         throw new Error(data.detail || 'Prediction failed');
                     }
 
+                    uploadedFileNameDiv.textContent = uploadedFileName;
                     document.getElementById('filename').textContent = data.filename;
+                    document.getElementById('filePath').textContent = data.filename;
+                    
+                    // Extract tumor types and generate statement
+                    const tumorTypes = Object.entries(data.classes_found)
+                        .filter(([name]) => name !== 'Background')
+                        .map(([name, count]) => count > 0 ? name : null)
+                        .filter(name => name !== null);
+                    
+                    let tumorStatement = '';
+                    if (tumorTypes.length === 0) {
+                        tumorStatement = '✅ No tumor detected - Brain is healthy';
+                    } else if (tumorTypes.length === 1) {
+                        tumorStatement = `⚠️ Tumor detected: It is <strong>${tumorTypes[0]}</strong>`;
+                    } else {
+                        const formattedList = tumorTypes.slice(0, -1).join(', ') + 
+                                            (tumorTypes.length > 1 ? ', and ' : '') + 
+                                            tumorTypes[tumorTypes.length - 1];
+                        tumorStatement = `⚠️ Tumors detected: They are <strong>${formattedList}</strong>`;
+                    }
+                    document.getElementById('tumorDetection').innerHTML = tumorStatement;
+                    
                     const classesHtml = Object.entries(data.classes_found)
                         .map(([name, count]) => `${name}: ${count.toLocaleString()} voxels`)
                         .join('<br>');
