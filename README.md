@@ -502,37 +502,7 @@ USE_ATTENTION_GATES = True
 
 ---
 
-## 🚢 Deployment
-
-### Docker Deployment
-
-Build Docker image:
-
-```bash
-docker build -t brain-tumor-segmentation:latest .
-```
-
-Run container:
-
-```bash
-docker run -p 8000:8000 brain-tumor-segmentation:latest
-```
-
-### Docker Compose (API + UI)
-
-```bash
-docker-compose up --build
-```
-
-Accesses:
-
-- API: `http://localhost:8000`
-- UI: `http://localhost:3000`
-- Swagger Docs: `http://localhost:8000/docs`
-
----
-
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see [LICENSE](LICENSE) file for details.
 

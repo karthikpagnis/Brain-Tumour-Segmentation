@@ -584,12 +584,6 @@ pip install -r requirements.txt
 
 ## Recommended Feature Combinations
 
-### For Clinical Deployment:
-
-1. Uncertainty estimation (Bayesian)
-2. Post-processing (morphological ops)
-3. Ensemble voting
-
 ### For Research:
 
 1. All features above
