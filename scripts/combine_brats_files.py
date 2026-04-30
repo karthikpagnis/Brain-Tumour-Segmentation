@@ -20,7 +20,7 @@ import logging
 from pathlib import Path
 import nibabel as nib
 import numpy as np
-from typing import Tuple
+from typing import Tuple, Union, Optional
 
 logging.basicConfig(
     level=logging.INFO,
@@ -71,7 +71,7 @@ def load_nifti(filepath: Path) -> Tuple[np.ndarray, np.ndarray]:
     return data, affine
 
 
-def combine_brats_files(input_dir: str, output_path: str = None, verbose: bool = True) -> str:
+def combine_brats_files(input_dir: Union[str, Path], output_path: Optional[str] = None, verbose: bool = True) -> str:
     """
     Combine separate BraTS channel files into single 4-channel file
     
@@ -126,24 +126,24 @@ def combine_brats_files(input_dir: str, output_path: str = None, verbose: bool =
     
     # Save as NIfTI
     if output_path is None:
-        output_path = f"{input_dir.name}_combined.nii.gz"
-    
-    output_path = Path(output_path)
+        output_file: Path = Path(f"{input_dir.name}_combined.nii.gz")
+    else:
+        output_file = Path(output_path)
     
     if verbose:
-        logger.info(f"\nSaving to: {output_path}")
+        logger.info(f"\nSaving to: {output_file}")
     
     img = nib.Nifti1Image(combined, affine=affine)
-    nib.save(img, output_path)
+    nib.save(img, output_file)
     
     if verbose:
-        file_size_mb = output_path.stat().st_size / (1024 * 1024)
+        file_size_mb = output_file.stat().st_size / (1024 * 1024)
         logger.info(f"✅ Success! File size: {file_size_mb:.1f} MB")
         logger.info(f"\nYou can now upload this file to the app:")
-        logger.info(f"  → {output_path.absolute()}")
+        logger.info(f"  → {output_file.absolute()}")
         logger.info(f"{'='*70}\n")
     
-    return str(output_path)
+    return str(output_file)
 
 
 def main():

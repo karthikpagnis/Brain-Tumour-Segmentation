@@ -1,0 +1,15 @@
+Project title: Brain Tumour Segmentation from MRI Scans Using an Attention-Enhanced U-Net Architecture
+Project Description:
+
+This project is focused on creating an all-inclusive Deep Learning based system that can automatically segment the brain tumours from the Brain Tumour Segmentation (BraTS) multimodal MRI scans. This research project aims to develop an operational framework to be able to tackle the challenges associated with Brain Tumours that are inherently variable in their morphology, i.e. Tumour heterogeneity characterised by varying amounts, sizes, shapes and intensity, and thus rendering the manual delineation of brain tumours laborious and subject to inter-observer variability.
+
+Technical Approach
+Architecture: The underlying model will leverage an encoder-decoder architecture using skip connections to inform the final output, coupled with the inclusion of Attention Gate (AG) technology to allow the model to focus on expressing via high-emphasis those tumour characteristics salient to the tumour, necrotic core and peritumoral oedema whilst concurrently disregarding low-emphasis irrelevant background tissues and healthy tissue.
+
+Data Pipeline: The benchmark BraTS dataset will be used to establish a data pipeline that includes comprehensive pre-processing (NIfTI Volume Reading and Conversion, Z-score Intensity Normalisation, and extraction of relevant slices) of the MRI scan data used for model development.
+
+Robustness: To ensure each model generalises effectively while mitigating overfitting, a number of spatial data augmentation techniques (rotation/flip) and intensity transformation techniques will be employed.
+
+Optimisation: In consideration of the extreme class imbalance that exists between the smaller tumour lesions and the extensive amount of healthy brain tissue that exists in the model being used for segmentation purposes, a composite Dice-Binary Cross-Entropy (Dice-BCE) loss function will be employed.
+
+Evaluation and Impact: The novel framework has been thoroughly evaluated against the baseline U-Net with extensive quantitative analysis, including the Dice Similarity Coefficient (DSC), Intersection Over Union (IoU) and F1-score. In this way, this project illustrates that attention-based mechanisms can improve the accuracy of computer-assisted clinical decision support systems, leading to more accurate diagnoses, better radiation therapy plans and improved monitoring of disease over time.

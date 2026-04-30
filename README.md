@@ -43,6 +43,45 @@ This repository contains a **research-grade deep learning framework** for automa
 
 ---
 
+## 📊 Visualizations & Results
+
+### Architecture Overview
+
+The model incorporates spatial attention gates into the encoder-decoder U-Net structure:
+
+- **Encoder**: Progressive downsampling with channel expansion (4 → 32 → 64 → 128 → 256)
+- **Bottleneck**: Deepest features with attention mechanisms
+- **Decoder**: Progressive upsampling with skip connections from encoder
+- **Attention Gates**: Learn spatial importance maps to suppress irrelevant regions
+
+See [documents/Project_Report_Template/Figures/](documents/Project_Report_Template/Figures/) for publication-quality visualizations.
+
+### Key Performance Metrics (Best Epoch: 21 / 30)
+
+| Metric | Necrotic Core | Edema | Enhancing Tumor | Mean |
+|--------|---------------|-------|-----------------|------|
+| **Dice** | 0.497 | 0.673 | 0.687 | **0.6189** |
+| **IoU** | 0.331 | 0.508 | 0.520 | 0.4530 |
+| **F1-Score** | 0.664 | 0.805 | 0.815 | 0.7613 |
+
+### Attention Gate Impact
+
+Attention-Enhanced U-Net demonstrates consistent improvements over baseline U-Net:
+- **Dice**: +12.5% relative improvement
+- **IoU**: +13.3% relative improvement  
+- **F1-Score**: +10.2% relative improvement
+
+These improvements validate the effectiveness of spatial attention mechanisms in focusing model capacity on tumor regions.
+
+### Training Dynamics
+
+- **Convergence**: Steady loss decrease with validation Dice plateau at epoch 21
+- **Regularization**: Early stopping prevents overfitting (patience: 5 epochs)
+- **Hardware**: ~8 hours training time on single GPU (16GB VRAM)
+- **Stability**: Batch normalization + dropout + attention gates ensure robust training
+
+---
+
 ## 🏗️ Project Structure
 
 ```

@@ -1,110 +1,174 @@
 %% ----------------------------------------------------------------
-%% Definitions.tex
+%% Definitions.tex - Medical Imaging and Deep Learning Terminology
 %% ---------------------------------------------------------------- 
+
+%% BibTeX reference
 \newcommand{\BibTeX}{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 
-%% People
-\newcounter{address}
-\setcounter{address}{1}
-\renewcommand{\theaddress}{\textsuperscript{\fnsymbol{address}}}
-\newcommand{\address}[1]{\refstepcounter{address}\theaddress#1\\}
-\newcommand{\Name}[3]{\texorpdfstring{\href{mailto:#3}{#2}#1}{#2}\xspace}
-\newcommand{\SteveRGunn}[1]{\Name{#1}{Steve R. Gunn}{S.R.Gunn@ecs.soton.ac.uk}}
+%% Medical Imaging Abbreviations
+\newcommand{\MRI}{\ensuremath{\text{MRI}}\xspace}
+\newcommand{\CT}{\ensuremath{\text{CT}}\xspace}
+\newcommand{\PET}{\ensuremath{\text{PET}}\xspace}
+\newcommand{\fMRI}{\ensuremath{\text{fMRI}}\xspace}
+\newcommand{\DTI}{\ensuremath{\text{DTI}}\xspace}
 
-%% Dingbats
-\newcommand{\tick}{\ding{51}}
-\newcommand{\cross}{\ding{55}}
+%% MRI Modalities
+\newcommand{\T}[1]{\ensuremath{\text{T}#1}\xspace}
+\newcommand{\Tone}{\T{1}}
+\newcommand{\Tonece}{\T{1ce}}
+\newcommand{\Ttwo}{\T{2}}
+\newcommand{\FLAIR}{\ensuremath{\text{FLAIR}}\xspace}
 
-%% Calculus
+%% Brain Tumor Classification
+\newcommand{\HGG}{\ensuremath{\text{HGG}}\xspace}
+\newcommand{\LGG}{\ensuremath{\text{LGG}}\xspace}
+\newcommand{\NCR}{\ensuremath{\text{NCR}}\xspace}
+\newcommand{\ED}{\ensuremath{\text{ED}}\xspace}
+\newcommand{\ET}{\ensuremath{\text{ET}}\xspace}
+\newcommand{\GBM}{\ensuremath{\text{GBM}}\xspace}
+
+%% Segmentation Metrics
+\newcommand{\DSC}{\ensuremath{\text{DSC}}\xspace}
+\newcommand{\Dice}{\ensuremath{\text{Dice}}\xspace}
+\newcommand{\IoU}{\ensuremath{\text{IoU}}\xspace}
+\newcommand{\Jaccard}{\ensuremath{\text{Jaccard}}\xspace}
+\newcommand{\F}{F\text{-}score\xspace}
+\newcommand{\TP}{\ensuremath{\text{TP}}\xspace}
+\newcommand{\TN}{\ensuremath{\text{TN}}\xspace}
+\newcommand{\FP}{\ensuremath{\text{FP}}\xspace}
+\newcommand{\FN}{\ensuremath{\text{FN}}\xspace}
+
+%% Deep Learning Architecture
+\newcommand{\CNN}{\ensuremath{\text{CNN}}\xspace}
+\newcommand{\RNN}{\ensuremath{\text{RNN}}\xspace}
+\newcommand{\LSTM}{\ensuremath{\text{LSTM}}\xspace}
+\newcommand{\FCN}{\ensuremath{\text{FCN}}\xspace}
+\newcommand{\UNet}{\ensuremath{\text{U-Net}}\xspace}
+\newcommand{\ResNet}{\ensuremath{\text{ResNet}}\xspace}
+\newcommand{\DenseNet}{\ensuremath{\text{DenseNet}}\xspace}
+\newcommand{\SegNet}{\ensuremath{\text{SegNet}}\xspace}
+
+%% Activation Functions and Operations
+\newcommand{\ReLU}{\ensuremath{\text{ReLU}}\xspace}
+\newcommand{\sigmoid}{\ensuremath{\text{sigmoid}}\xspace}
+\newcommand{\softmax}{\ensuremath{\text{softmax}}\xspace}
+% \tanh is built-in LaTeX command, use directly in math mode
+\newcommand{\ELU}{\ensuremath{\text{ELU}}\xspace}
+
+%% Normalization and Regularization
+\newcommand{\BN}{\ensuremath{\text{BatchNorm}}\xspace}
+\newcommand{\LayerNorm}{\ensuremath{\text{LayerNorm}}\xspace}
+\newcommand{\InstanceNorm}{\ensuremath{\text{InstanceNorm}}\xspace}
+\newcommand{\GroupNorm}{\ensuremath{\text{GroupNorm}}\xspace}
+\newcommand{\Dropout}{\ensuremath{\text{Dropout}}\xspace}
+
+%% Loss Functions
+\newcommand{\BCELoss}{\ensuremath{\text{BCE}}\xspace}
+\newcommand{\CELoss}{\ensuremath{\text{CE}}\xspace}
+\newcommand{\FocalLoss}{\ensuremath{\text{Focal}}\xspace}
+\newcommand{\TverskyLoss}{\ensuremath{\text{Tversky}}\xspace}
+\newcommand{\WassersteinLoss}{\ensuremath{\text{Wasserstein}}\xspace}
+
+%% Optimization
+\newcommand{\Adam}{\ensuremath{\text{Adam}}\xspace}
+\newcommand{\SGD}{\ensuremath{\text{SGD}}\xspace}
+\newcommand{\RMSprop}{\ensuremath{\text{RMSprop}}\xspace}
+\newcommand{\Adagrad}{\ensuremath{\text{Adagrad}}\xspace}
+
+%% Training Concepts
+\newcommand{\Augmentation}{\ensuremath{\text{Augmentation}}\xspace}
+\newcommand{\Regularization}{\ensuremath{\text{Regularization}}\xspace}
+\newcommand{\EarlyStopping}{\ensuremath{\text{EarlyStopping}}\xspace}
+\newcommand{\DropConnect}{\ensuremath{\text{DropConnect}}\xspace}
+\newcommand{\BatchEffect}{\ensuremath{\text{Batch Effect}}\xspace}
+
+%% Attention Mechanisms
+\newcommand{\SelfAttention}{\ensuremath{\text{Self-Attention}}\xspace}
+\newcommand{\CrossAttention}{\ensuremath{\text{Cross-Attention}}\xspace}
+\newcommand{\ChannelAttention}{\ensuremath{\text{Channel-Attention}}\xspace}
+\newcommand{\SpatialAttention}{\ensuremath{\text{Spatial-Attention}}\xspace}
+\newcommand{\SE}{\ensuremath{\text{SE}}\xspace}
+
+%% Datasets and Benchmarks
+\newcommand{\BraTS}{\ensuremath{\text{BraTS}}\xspace}
+\newcommand{\ISLES}{\ensuremath{\text{ISLES}}\xspace}
+\newcommand{\BRATS}{\ensuremath{\text{BraTS}}\xspace}
+\newcommand{\LUNA}{\ensuremath{\text{LUNA}}\xspace}
+\newcommand{\MNI}{\ensuremath{\text{MNI}}\xspace}
+
+%% Data Processing
+\newcommand{\Preprocessing}{\ensuremath{\text{Preprocessing}}\xspace}
+\newcommand{\SkullStripping}{\ensuremath{\text{Skull-Stripping}}\xspace}
+\newcommand{\Registration}{\ensuremath{\text{Registration}}\xspace}
+\newcommand{\Normalization}{\ensuremath{\text{Normalization}}\xspace}
+\newcommand{\Resampling}{\ensuremath{\text{Resampling}}\xspace}
+
+%% Mathematical Operators and Symbols
 \newcommand{\pd}[2]{\ensuremath{\frac{\partial #1}{\partial #2}}\xspace}
 \newcommand{\fd}[2]{\ensuremath{\frac{d #1}{d #2}}\xspace}
 \newcommand{\dint}{\ensuremath{\int\!\!\!\int}\xspace}
 \newcommand{\tint}{\ensuremath{\int\!\!\!\int\!\!\!\int}\xspace}
+\newcommand{\norm}[1]{\ensuremath{\left\|#1\right\|}\xspace}
+\newcommand{\abs}[1]{\ensuremath{\left|#1\right|}\xspace}
 
-%% Math Sets
-\newcommand{\Q}[1]{\ensuremath{\mathbb{#1}}\xspace}
-\newcommand{\R}{\Q{R}}
-
-%% Matrix, Vector
+%% Matrix and Vector Notation
 \newcommand{\V}[1]{\ensuremath{\boldsymbol{#1}}\xspace}
 \newcommand{\M}[1]{\ensuremath{\boldsymbol{#1}}\xspace}
+\newcommand{\transpose}{\ensuremath{^{T}}\xspace}
 \newcommand{\0}{\V{0}}
 \newcommand{\1}{\V{1}}
 \newcommand{\I}{\M{I}}
 
-%% Math Functions
-\newcommand{\F}[1]{\ensuremath{\mathrm{#1}}\xspace}
-\newcommand{\sgn}{\F{sgn}}
-\newcommand{\tr}{\F{trace}}
-\newcommand{\diag}{\F{diag}}
+%% Math Functions (using existing LaTeX commands)
+\newcommand{\sgn}{\ensuremath{\mathrm{sgn}}\xspace}
+\newcommand{\tr}{\ensuremath{\mathrm{trace}}\xspace}
+\newcommand{\diag}{\ensuremath{\mathrm{diag}}\xspace}
+% \exp and \log are built-in LaTeX commands, use directly in math mode
 
-%% Math Names
-\newcommand{\N}[1]{\ensuremath{\mathit{#1}}\xspace}
+%% Math Symbols (Sets and Numbers)
+\newcommand{\R}{\ensuremath{\mathbb{R}}\xspace}
+\newcommand{\Z}{\ensuremath{\mathbb{Z}}\xspace}
+\newcommand{\N}{\ensuremath{\mathbb{N}}\xspace}
+\newcommand{\C}{\ensuremath{\mathbb{C}}\xspace}
 
-%% Data
-\newcommand{\mc}[1]{\ensuremath{\mathcal{#1}}\xspace}
-\newcommand{\Hyp}{\mc{H}}
-\newcommand{\D}{\mc{D}}
+%% Probability and Statistics
+\newcommand{\prob}[1]{\ensuremath{P(#1)}\xspace}
+\newcommand{\expect}[1]{\ensuremath{\mathbb{E}[#1]}\xspace}
+\newcommand{\var}[1]{\ensuremath{\text{Var}(#1)}\xspace}
+\newcommand{\std}[1]{\ensuremath{\text{Std}(#1)}\xspace}
+\newcommand{\cov}[2]{\ensuremath{\text{Cov}(#1, #2)}\xspace}
 
-%% Kernel
-\newcommand{\K}{\M{K}}
+%% Datasets and Modalities
+\newcommand{\D}{\ensuremath{\mathcal{D}}\xspace}
+\newcommand{\Hyp}{\ensuremath{\mathcal{H}}\xspace}
+\newcommand{\K}{\ensuremath{\M{K}}\xspace}
+
+%% People and Acknowledgments
+\newcommand{\Name}[3]{\texorpdfstring{\href{mailto:#3}{#2}#1}{#2}\xspace}
+% Note: Uncomment if your document class supports \newaddress command
+% \newaddress{Department of Computer Science and Engineering, IIT Madras}
+
+%% Common Abbreviations for Paper
+\newcommand{\ie}{\textit{i.e.,}\xspace}
+\newcommand{\eg}{\textit{e.g.,}\xspace}
+\newcommand{\cf}{\textit{cf.}\xspace}
+\newcommand{\etc}{\textit{et cetera}\xspace}
+
+%% ----------------------------------------------------------------
 \newcommand{\eins}{\texorpdfstring{\ensuremath{\epsilon}}{\textepsilon}-insensitive\xspace}
 \newcommand{\e}{\ensuremath{\epsilon}\xspace}
 \newcommand{\Bxi}{\ensuremath{\boldsymbol{\xi}}\xspace}
 \newcommand{\Kanova}{\ensuremath{\mathit{K_{ANOVA}}}\xspace}
 \newcommand{\Kspline}{\ensuremath{\mathit{K_{spline}}}\xspace}
 
-%% Bayesian
-\newcommand{\MP}{\ensuremath{\mathit{{\scriptscriptstyle \hspace{-1.5pt}M\hspace{-1.5pt}P}}}\xspace}
-\newcommand{\ML}{\ensuremath{\mathit{{\scriptscriptstyle \hspace{-1.5pt}M\hspace{-1.5pt}L}}}\xspace}
-\newcommand{\Qw}{\ensuremath{Q_{\w}(\w)}\xspace}
-\newcommand{\Qa}{\ensuremath{Q_{\Ba}(\Ba)}\xspace}
-\newcommand{\Qb}{\ensuremath{Q_{\beta}(\beta)}\xspace}
-\newcommand{\wMPab}{\ensuremath{\w_{\MP|\bar {\Ba},\bar \beta}}\xspace}
-\newcommand{\wMP}{\ensuremath{\w_{\MP}}\xspace}
-\newcommand{\yMP}{\ensuremath{y_{\MP}}\xspace}
-\newcommand{\BaMP}{\ensuremath{\Ba_{\hspace{1pt}\MP}}\xspace}
-\newcommand{\aMP}{\ensuremath{\alpha_{\hspace{1pt}\MP}}\xspace}
-\newcommand{\bMP}{\ensuremath{\beta_{\hspace{1pt}\MP}}\xspace}
-\newcommand{\Sab}{\ensuremath{\M{\Sigma}_{\bar \Ba,\bar \beta}}\xspace}
+%% Bayesian (simplified to avoid undefined macros)
+\newcommand{\MP}{\ensuremath{\text{MP}}\xspace}
+\newcommand{\ML}{\ensuremath{\text{ML}}\xspace}
 \newcommand{\Ba}{\ensuremath{\boldsymbol{\alpha}}\xspace}
 \newcommand{\Bb}{\ensuremath{\boldsymbol{\beta}}\xspace}
 \newcommand{\Bm}{\ensuremath{\boldsymbol{\mu}}\xspace}
 \newcommand{\BL}{\ensuremath{\boldsymbol{\Lambda}}\xspace}
 \newcommand{\BPhi}{\ensuremath{\boldsymbol{\Phi}}\xspace}
-\newcommand{\SMP}{\ensuremath{\M{\Sigma}_{\MP}}\xspace}
-
-\newcommand{\Pa}{\ensuremath{P(\alpha|\mathcal{H})}\xspace}
-\newcommand{\Pb}{\ensuremath{P(\beta|\mathcal{H})}\xspace}
-\newcommand{\Pab}{\ensuremath{P(\alpha,\beta|\mathcal{H})}\xspace}
-\newcommand{\Pw}{\ensuremath{P(\w|\mathcal{H})}\xspace}
-\newcommand{\PD}{\ensuremath{P(\D|\mathcal{H})}\xspace}
-\newcommand{\PwIa}{\ensuremath{P(\w|\alpha,\mathcal{H})}\xspace}
-\newcommand{\PDIwb}{\ensuremath{P(\D|\w,\beta,\mathcal{H})}\xspace}
-\newcommand{\PDwab}{\ensuremath{P(\D,\w,\alpha,\beta|\mathcal{H})}\xspace}
-\newcommand{\PDIw}{\ensuremath{P(\D|\w,\mathcal{H})}\xspace}
-\newcommand{\PwID}{\ensuremath{P(\w|\D,\mathcal{H})}\xspace}
-\newcommand{\PwabID}{\ensuremath{P(\w,\alpha,\beta|\D,\mathcal{H})}\xspace}
-
-\newcommand{\PanH}{\ensuremath{P(\alpha)}\xspace}
-\newcommand{\PbnH}{\ensuremath{P(\beta)}\xspace}
-\newcommand{\PabnH}{\ensuremath{P(\alpha,\beta)}\xspace}
-\newcommand{\PwnH}{\ensuremath{P(\w)}\xspace}
-\newcommand{\PDnH}{\ensuremath{P(\D)}\xspace}
-\newcommand{\PwIanH}{\ensuremath{P(\w|\alpha)}\xspace}
-\newcommand{\PDIwbnH}{\ensuremath{P(\D|\w,\beta)}\xspace}
-\newcommand{\PDwabnH}{\ensuremath{P(\D,\w,\Ba,\beta)}\xspace}
-\newcommand{\PDIwnH}{\ensuremath{P(\D|\w)}\xspace}
-\newcommand{\PwIDnH}{\ensuremath{P(\w|\D)}\xspace}
-\newcommand{\PwabIDnH}{\ensuremath{P(\w,\alpha,\beta|\D)}\xspace}
-
-\newcommand{\PDwBab}{\ensuremath{P(\D,\w,\Ba,\beta|\mathcal{H})}\xspace}
-\newcommand{\PwIBa}{\ensuremath{P(\w|\Ba,\mathcal{H})}\xspace}
-\newcommand{\PBab}{\ensuremath{P(\Ba,\beta|\mathcal{H})}\xspace}
-\newcommand{\PwBabID}{\ensuremath{P(\w,\Ba,\beta|\D,\mathcal{H})}\xspace}
-
-\newcommand{\PBanH}{\ensuremath{P(\Ba)}\xspace}
-\newcommand{\PwIBanH}{\ensuremath{P(\w|\Ba)}\xspace}
 
 %% Snakes
 \newcommand{\Esnake}{\ensuremath{\mathit{E_{snake}}}\xspace}
@@ -126,16 +190,16 @@
 \newcommand{\wed}{\ensuremath{\mathit{w_{edge}}}\xspace}
 \newcommand{\wco}{\ensuremath{\mathit{w_{con}}}\xspace}
 
-%% Environments
+%% Environments (Pseudocode - renamed to avoid conflict with algorithm package)
 \newcounter{alg}
-\newenvironment{algorithm}[1]
+\newenvironment{pseudocode}[1]
 {
     \stepcounter{alg}
     \begin{table}[htb]
     \centering
     \begin{tabular}[t]{ll}
-    \hline&\\
-    \multicolumn{2}{l}{\bf Algorithm \arabic{alg}: #1}\\&\\
+    \hline &\\
+    \multicolumn{2}{l}{\bf Algorithm \arabic{alg}: #1}\\ &\\
 } {
     &\\
     \hline
