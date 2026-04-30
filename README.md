@@ -58,17 +58,18 @@ See [documents/Project_Report_Template/Figures/](documents/Project_Report_Templa
 
 ### Key Performance Metrics (Best Epoch: 21 / 30)
 
-| Metric | Necrotic Core | Edema | Enhancing Tumor | Mean |
-|--------|---------------|-------|-----------------|------|
-| **Dice** | 0.497 | 0.673 | 0.687 | **0.6189** |
-| **IoU** | 0.331 | 0.508 | 0.520 | 0.4530 |
-| **F1-Score** | 0.664 | 0.805 | 0.815 | 0.7613 |
+| Metric       | Necrotic Core | Edema | Enhancing Tumor | Mean       |
+| ------------ | ------------- | ----- | --------------- | ---------- |
+| **Dice**     | 0.497         | 0.673 | 0.687           | **0.6189** |
+| **IoU**      | 0.331         | 0.508 | 0.520           | 0.4530     |
+| **F1-Score** | 0.664         | 0.805 | 0.815           | 0.7613     |
 
 ### Attention Gate Impact
 
 Attention-Enhanced U-Net demonstrates consistent improvements over baseline U-Net:
+
 - **Dice**: +12.5% relative improvement
-- **IoU**: +13.3% relative improvement  
+- **IoU**: +13.3% relative improvement
 - **F1-Score**: +10.2% relative improvement
 
 These improvements validate the effectiveness of spatial attention mechanisms in focusing model capacity on tumor regions.
@@ -287,13 +288,13 @@ Input (4-channel MRI) → Encoder → Bottleneck → Decoder → Output (4-class
 
 | Parameter      | Value                        |
 | -------------- | ---------------------------- |
-| Batch Size     | 16                           |
-| Learning Rate  | 1e-3                         |
+| Batch Size     | 4                            |
+| Learning Rate  | 2e-4                         |
 | Optimizer      | Adam                         |
-| Epochs         | 100                          |
+| Epochs         | 30                           |
 | Loss Function  | Dice-BCE (0.5-0.5 weighting) |
 | Scheduler      | ReduceLROnPlateau            |
-| Early Stopping | 20 epochs patience           |
+| Early Stopping | 5 epochs patience            |
 
 ### Training a Model
 
@@ -301,9 +302,9 @@ Input (4-channel MRI) → Encoder → Bottleneck → Decoder → Output (4-class
 python training/train.py \
     --config config.py \
     --experiment attention_unet_v1 \
-    --batch_size 16 \
-    --epochs 100 \
-    --learning_rate 1e-3
+    --batch_size 4 \
+    --epochs 30 \
+    --learning_rate 2e-4
 ```
 
 ### Running with Baseline Comparison
