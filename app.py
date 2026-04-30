@@ -631,7 +631,7 @@ def get_html_interface():
                 </div>
                 <div class="result-item">
                     <div class="result-label">📊 Output File</div>
-                    <div class="result-value" id="node --version"></div>
+                    <div class="result-value" id="filename"></div>
                     <div class="result-value" style="font-size: 12px; color: #999; margin-top: 8px;">📁 Path: <code style="background: #f0f0f0; padding: 2px 4px; border-radius: 3px;">uploads/<span id="filePath"></span></code></div>
                 </div>
                 <div class="result-item">
