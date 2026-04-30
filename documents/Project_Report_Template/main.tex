@@ -10,7 +10,7 @@
 \usepackage{algorithm}         % Algorithms
 \usepackage{algorithmic}       % Algorithm formatting
 \usepackage{multirow}          % For tables
-\hypersetup{colourlinks=true}   % Set to false for black/white printing
+\hypersetup{colorlinks=true}   % Set to false for black/white printing
 \input{Definitions}            % Include your abbreviations
 %% ----------------------------------------------------------------
 \begin{document}
@@ -175,7 +175,7 @@ where $g$ is the gating signal, $x$ is the attention input, and $\alpha$ is the 
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.95\textwidth]{06_attention_visualisation}
+\includegraphics[width=0.95\textwidth]{06_attention_visualization}
 \caption{Spatial attention gate mechanism. (Top-left) Input feature map containing both tumour and background information. (Top-right) Learned attention coefficients showing strong response around tumour regions. (Bottom-left) Gated features after attention multiplication. (Bottom-right) Mathematical formulation showing how gating signals combine with skip connections to create spatially-selective attention maps that enhance tumour features whilst suppressing background.}
 \label{Fig:AttentionMechanism}
 \end{figure}
